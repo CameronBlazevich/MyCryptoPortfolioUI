@@ -5,6 +5,7 @@ import StatusBarBuffer from "./src/components/statusBarBuffer";
 import NavBar from "./src/components/navBar";
 import CryptoHoldingList from "./src/components/cryptoHoldingList";
 import Footer from "./src/components/footer";
+
 const auth0 = new Auth0({
   domain: "handrangememorizer.auth0.com",
   clientId: "LM7qGI8MCf4GhQMyzfO6Z0tufZ5FCTb0"
