@@ -3,6 +3,7 @@ import { View, FlatList, StyleSheet } from "react-native";
 import CryptoHoldingListItem from "./cryptoHoldingListItem";
 
 function CryptoHoldingList(props) {
+  //console.log(props);
   const testData = [
     {
       key: 1,
@@ -170,18 +171,22 @@ function CryptoHoldingList(props) {
 
   renderItem = ({ item }) => (
     <CryptoHoldingListItem
-      key={item.key}
-      coinName={item.coinName}
-      currentPrice={item.currentPrice}
+      coinName={item.coin.name}
+      tickerSymbol={item.coinTickerSymbol}
+      currentPrice={item.coin.price_usd}
       amountOwned={item.amountOwned}
+      value={item.valueOfAmountOwned.value}
     />
   );
 
+  keyExtractor = (item, index) => item.id;
+
   return (
     <FlatList
-      data={testData}
+      data={props.holdings}
       extraData={this.state}
       renderItem={this.renderItem}
+      keyExtractor={this.keyExtractor}
     />
   );
 }

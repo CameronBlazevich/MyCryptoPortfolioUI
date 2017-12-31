@@ -12,7 +12,7 @@ function Footer(props) {
       </View>
       <View style={styles.totalsContainer}>
         <Text style={styles.title}>Total Value:</Text>
-        <Text style={styles.text}>$1000</Text>
+        <Text style={styles.text}>${props.totalValue}</Text>
       </View>
     </View>
   );

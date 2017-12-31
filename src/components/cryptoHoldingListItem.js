@@ -9,12 +9,24 @@ function CryptoHoldingListItem(props) {
         <Text>LOGO</Text>
       </View>
       <View style={[styles.listItemSection, styles.coinInfo]}>
-        <Text>{props.coinName}</Text>
+        <Text style={styles.coinName}>
+          {props.coinName} ({props.tickerSymbol})
+        </Text>
         <Text>{props.currentPrice}</Text>
       </View>
       <View style={[styles.listItemSection, styles.ownedSection]}>
-        <Text>Value: {props.Value}</Text>
-        <Text>Amount Owned: {props.amountOwned}</Text>
+        <View style={{ flexDirection: "row" }}>
+          <Text style={styles.labelText}>Owned:</Text>
+          <Text style={styles.field}> {props.amountOwned}</Text>
+        </View>
+        <View style={{ flexDirection: "row" }}>
+          <View>
+            <Text style={styles.labelText}>Value:</Text>
+          </View>
+          <View>
+            <Text style={styles.field}> {props.value}</Text>
+          </View>
+        </View>
       </View>
     </View>
   );
@@ -31,6 +43,9 @@ const styles = StyleSheet.create({
   },
   listItemSection: { flexDirection: "column" },
   logo: { flex: 1 },
-  coinInfo: { flex: 2 },
-  ownedSection: { flex: 2 }
+  coinInfo: { flex: 3 },
+  ownedSection: { flex: 3 },
+  labelText: { fontSize: 14, fontWeight: "100" },
+  field: { fontSize: 14, fontWeight: "500" },
+  coinName: { fontSize: 16, fontWeight: "bold" }
 });

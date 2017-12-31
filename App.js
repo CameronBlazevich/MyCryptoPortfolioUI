@@ -22,17 +22,41 @@ const auth0 = new Auth0({
 //     // Store the accessToken
 //   )
 //   .catch(error => console.log(error));
+async function getPortfolio() {
+  console.log("Getting Portfolio");
+  try {
+    let response = await fetch("https://www.brotoprocrypto.com/api/portfolios");
+    let responseJson = await response.json();
+    return responseJson;
+  } catch (error) {
+    console.error(error);
+  }
+}
 
 export default class App extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      portfolio: { holdings: [], totalValue: 0 }
+    };
+  }
+
+  async componentDidMount() {
+    let portfolio = await getPortfolio();
+    console.log(portfolio.holdings);
+    this.setState({ portfolio: portfolio });
+  }
+
   render() {
     return (
       <View style={styles.appContainer}>
         <StatusBarBuffer />
         <NavBar />
         <View style={styles.container}>
-          <CryptoHoldingList />
+          <CryptoHoldingList holdings={this.state.portfolio.holdings} />
         </View>
-        <Footer />
+        <Footer totalValue={this.state.portfolio.totalValue} />
       </View>
     );
   }
