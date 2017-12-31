@@ -1,14 +1,24 @@
 import React from "react";
-import { View, Image, Text, StyleSheet } from "react-native";
+import {
+  View,
+  Image,
+  Text,
+  StyleSheet,
+  TouchableHighlight
+} from "react-native";
 
 function Footer(props) {
   return (
     <View style={styles.container}>
       <View style={styles.addHoldingContainer}>
-        <Image
-          style={{ height: 55, width: 55 }}
-          source={require("../icons/if_Coin-S-add_1952458.png")}
-        />
+        <TouchableHighlight
+          onPress={() => props.onAddHoldingClick(!props.isModalVisible)}
+        >
+          <Image
+            style={{ height: 55, width: 55 }}
+            source={require("../icons/if_Coin-S-add_1952458.png")}
+          />
+        </TouchableHighlight>
       </View>
       <View style={styles.totalsContainer}>
         <Text style={styles.title}>Total Value:</Text>

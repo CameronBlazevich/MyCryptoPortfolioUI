@@ -4,6 +4,7 @@ import Auth0 from "react-native-auth0";
 import StatusBarBuffer from "./src/components/statusBarBuffer";
 import NavBar from "./src/components/navBar";
 import CryptoHoldingList from "./src/components/cryptoHoldingList";
+import AddHoldingModal from "./src/components/addHoldingModal";
 import Footer from "./src/components/footer";
 
 const auth0 = new Auth0({
@@ -38,15 +39,18 @@ export default class App extends React.Component {
     super(props);
 
     this.state = {
-      portfolio: { holdings: [], totalValue: 0 }
+      portfolio: { holdings: [], totalValue: 0 },
+      modalVisible: false
     };
   }
-
   async componentDidMount() {
     let portfolio = await getPortfolio();
     console.log(portfolio.holdings);
     this.setState({ portfolio: portfolio });
   }
+  handleAddHoldingClick = modalVisible => {
+    this.setState({ modalVisible: modalVisible });
+  };
 
   render() {
     return (
@@ -54,9 +58,14 @@ export default class App extends React.Component {
         <StatusBarBuffer />
         <NavBar />
         <View style={styles.container}>
+          <AddHoldingModal visible={this.state.modalVisible} />
           <CryptoHoldingList holdings={this.state.portfolio.holdings} />
         </View>
-        <Footer totalValue={this.state.portfolio.totalValue} />
+        <Footer
+          onAddHoldingClick={this.handleAddHoldingClick}
+          isModalVisible={this.state.modalVisible}
+          totalValue={this.state.portfolio.totalValue}
+        />
       </View>
     );
   }
