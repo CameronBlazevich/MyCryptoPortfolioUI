@@ -171,11 +171,12 @@ function CryptoHoldingList(props) {
 
   renderItem = ({ item }) => (
     <CryptoHoldingListItem
-      coinName={item.coin.name}
+      coinName={item.coin ? item.coin.name : "Unknown"}
       tickerSymbol={item.coinTickerSymbol}
-      currentPrice={item.coin.price_usd}
+      currentPrice={item.coin ? item.coin.price_usd : "n/a"}
       amountOwned={item.amountOwned}
       value={item.valueOfAmountOwned.value}
+      onTouch={() => props.handleHoldingListItemTouch(item)}
     />
   );
 

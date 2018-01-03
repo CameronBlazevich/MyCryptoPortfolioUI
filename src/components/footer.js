@@ -11,9 +11,7 @@ function Footer(props) {
   return (
     <View style={styles.container}>
       <View style={styles.addHoldingContainer}>
-        <TouchableHighlight
-          onPress={() => props.onAddHoldingClick(!props.isModalVisible)}
-        >
+        <TouchableHighlight onPress={props.onAddHoldingClick}>
           <Image
             style={{ height: 55, width: 55 }}
             source={require("../icons/if_Coin-S-add_1952458.png")}

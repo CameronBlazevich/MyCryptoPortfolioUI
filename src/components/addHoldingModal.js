@@ -1,9 +1,14 @@
 import React from "react";
 import { Modal, View, Text } from "react-native";
+import AddHoldingForm from "./addHoldingForm";
 
 function AddHoldingModal(props) {
   return (
-    <Modal visible={props.visible} transparent={true}>
+    <Modal
+      visible={props.visible}
+      transparent={true}
+      onRequestClose={props.handleModalCloseRequest}
+    >
       <View style={{ flex: 1 }} />
       <View
         style={{
@@ -14,7 +19,9 @@ function AddHoldingModal(props) {
           alignItems: "center"
         }}
       >
-        <Text>Modal Here</Text>
+        <AddHoldingForm
+          handleAddHoldingFormSubmit={props.handleAddHoldingFormSubmit}
+        />
       </View>
       <View style={{ flex: 1 }} />
     </Modal>

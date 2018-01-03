@@ -1,34 +1,36 @@
 import React from "react";
-import { View, StyleSheet, Text } from "react-native";
+import { View, StyleSheet, Text, TouchableHighlight } from "react-native";
 import PropTypes from "prop-types";
 
 function CryptoHoldingListItem(props) {
   return (
-    <View style={styles.listItem}>
-      <View style={[styles.listItemSection, styles.logo]}>
-        <Text>LOGO</Text>
-      </View>
-      <View style={[styles.listItemSection, styles.coinInfo]}>
-        <Text style={styles.coinName}>
-          {props.coinName} ({props.tickerSymbol})
-        </Text>
-        <Text>{props.currentPrice}</Text>
-      </View>
-      <View style={[styles.listItemSection, styles.ownedSection]}>
-        <View style={{ flexDirection: "row" }}>
-          <Text style={styles.labelText}>Owned:</Text>
-          <Text style={styles.field}> {props.amountOwned}</Text>
+    <TouchableHighlight onPress={props.onTouch}>
+      <View style={styles.listItem}>
+        <View style={[styles.listItemSection, styles.logo]}>
+          <Text>LOGO</Text>
         </View>
-        <View style={{ flexDirection: "row" }}>
-          <View>
-            <Text style={styles.labelText}>Value:</Text>
+        <View style={[styles.listItemSection, styles.coinInfo]}>
+          <Text style={styles.coinName}>
+            {props.coinName} ({props.tickerSymbol})
+          </Text>
+          <Text>{props.currentPrice}</Text>
+        </View>
+        <View style={[styles.listItemSection, styles.ownedSection]}>
+          <View style={{ flexDirection: "row" }}>
+            <Text style={styles.labelText}>Owned:</Text>
+            <Text style={styles.field}> {props.amountOwned}</Text>
           </View>
-          <View>
-            <Text style={styles.field}> {props.value}</Text>
+          <View style={{ flexDirection: "row" }}>
+            <View>
+              <Text style={styles.labelText}>Value:</Text>
+            </View>
+            <View>
+              <Text style={styles.field}> {props.value}</Text>
+            </View>
           </View>
         </View>
       </View>
-    </View>
+    </TouchableHighlight>
   );
 }
 
