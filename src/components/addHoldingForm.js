@@ -26,8 +26,11 @@ export default AddHoldingForm;
 const styles = StyleSheet.create({
   container: {
     justifyContent: "center",
-    marginTop: 50,
-    padding: 20,
-    backgroundColor: "#ffffff"
+    marginTop: 10,
+    paddingLeft: 20,
+    paddingRight: 20,
+    //backgroundColor: "#ffffff",
+    //backgroundColor: "pink",
+    flex: 1
   }
 });

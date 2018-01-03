@@ -1,32 +1,25 @@
 import React from "react";
-import { Modal, View, Text, Button, StyleSheet } from "react-native";
+import { View, Text, Button, Image, StyleSheet } from "react-native";
+import Modal from "react-native-modal";
 import UpdateHoldingForm from "./updateHoldingForm";
 
 function HoldingDetailModal(props) {
-  //console.log(JSON.stringify(props.holdingSelected));
-  handleFormSubmit = formData => {
-    console.log(formData);
-  };
   return (
     <Modal
-      visible={props.visible}
-      transparent={true}
+      isVisible={props.visible}
+      //transparent={true}
       onRequestClose={props.handleModalCloseRequest}
+      //backdropColor={"red"}
+      // backdropOpacity={0.5}
+      onBackdropPress={() => props.handleModalCloseRequest}
     >
-      <View style={{ flex: 1, backgroundColor: "white", opacity: 0.8 }} />
-      <View
-        style={{
-          flex: 2,
-          opacity: 0.95,
-          backgroundColor: "white",
-          //justifyContent: "center",
-          //alignItems: "center",
-          padding: 30
-        }}
-      >
+      <View style={styles.modalContent}>
         <View style={[styles.row, styles.headerRow]}>
           <View style={[styles.cell, styles.cellSmall]}>
-            <Text>LOGO</Text>
+            <Image
+              style={{ height: 55, width: 55 }}
+              source={require("../icons/bitcoin_black.png")}
+            />
           </View>
           <View style={[styles.cell, styles.cellLarge]}>
             <Text style={styles.headingText}>
@@ -45,32 +38,35 @@ function HoldingDetailModal(props) {
             holdingSelected={props.holdingSelected}
             updateHolding={props.updateHolding}
             removeHolding={props.removeHolding}
-            onSubmit={this.handleFormSubmit}
           />
         </View>
       </View>
-      <View style={{ flex: 1, backgroundColor: "white", opacity: 0.8 }} />
     </Modal>
   );
 }
 
-//JUST MOVED ALL OF THE BUTTONS TO THE FORM AND NEED TO CONFIRM WIRED UP CORRECTLY
-
 export default HoldingDetailModal;
 
 const styles = StyleSheet.create({
-  row: {
-    //flex: 1,
+  modalContent: {
+    margin: 10,
+    backgroundColor: "white",
+    padding: 22,
+    borderRadius: 4,
     borderWidth: 1,
-    borderColor: "black",
-    flexDirection: "row"
-    //justifyContent: "center"
+    borderColor: "rgba(0, 0, 0, 0.1)"
   },
-  headerRow: { flex: 1, backgroundColor: "lightsteelblue" },
-  bodyRow: { flex: 2 },
-  footerRow: { flex: 1 },
+  row: {
+    flexDirection: "row"
+  },
+  headerRow: {
+    //backgroundColor: "lightsteelblue"
+    borderBottomColor: "black",
+    borderBottomWidth: 1
+  },
+  //   bodyRow: { flex: 3 },
   cell: { alignItems: "center", padding: 10, flexDirection: "row" },
   cellSmall: { flex: 1 },
-  cellLarge: { flex: 3 },
+  cellLarge: { flex: 4 },
   headingText: { fontWeight: "bold", fontSize: 20 }
 });

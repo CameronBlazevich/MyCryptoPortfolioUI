@@ -23,6 +23,7 @@
     "react": "16.0.0",
     "react-native": "0.50.3",
     "react-native-auth0": "^1.2.1",
+    "react-native-modal": "^4.1.1",
     "tcomb-form-native": "^0.6.11"
   }
 }

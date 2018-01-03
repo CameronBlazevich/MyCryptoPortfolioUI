@@ -1,5 +1,11 @@
 import React from "react";
-import { View, StyleSheet, Text, TouchableHighlight } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Text,
+  TouchableHighlight,
+  Image
+} from "react-native";
 import PropTypes from "prop-types";
 
 function CryptoHoldingListItem(props) {
@@ -7,7 +13,10 @@ function CryptoHoldingListItem(props) {
     <TouchableHighlight onPress={props.onTouch}>
       <View style={styles.listItem}>
         <View style={[styles.listItemSection, styles.logo]}>
-          <Text>LOGO</Text>
+          <Image
+            style={{ height: 35, width: 35 }}
+            source={require("../icons/bitcoin_color.png")}
+          />
         </View>
         <View style={[styles.listItemSection, styles.coinInfo]}>
           <Text style={styles.coinName}>
@@ -44,7 +53,7 @@ const styles = StyleSheet.create({
     borderColor: "black"
   },
   listItemSection: { flexDirection: "column" },
-  logo: { flex: 1 },
+  logo: { flex: 1, justifyContent: "center", alignItems: "center" },
   coinInfo: { flex: 3 },
   ownedSection: { flex: 3 },
   labelText: { fontSize: 14, fontWeight: "100" },
