@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, Keyboard } from "react-native";
 import Auth0 from "react-native-auth0";
 import StatusBarBuffer from "./src/components/statusBarBuffer";
 import NavBar from "./src/components/navBar";
@@ -7,6 +7,12 @@ import CryptoHoldingList from "./src/components/cryptoHoldingList";
 import AddHoldingModal from "./src/components/addHoldingModal";
 import HoldingDetailModal from "./src/components/holdingDetailModal";
 import Footer from "./src/components/footer";
+import { getPortfolioAsync } from "./src/services/portfolioDataService";
+import {
+  addHoldingAsync,
+  updateHoldingAsync,
+  removeHoldingAsync
+} from "./src/services/holdingsDataService";
 
 const auth0 = new Auth0({
   domain: "handrangememorizer.auth0.com",
@@ -33,93 +39,39 @@ export default class App extends React.Component {
       portfolio: { holdings: [], totalValue: 0 },
       holdingSelected: {},
       addHoldingModalVisible: false,
-      holdingDetailModalVisible: false
+      holdingDetailModalVisible: false,
+      keyboardSpace: 0
     };
+
+    //for get keyboard height
+    Keyboard.addListener("keyboardDidShow", frames => {
+      if (!frames.endCoordinates) return;
+      this.setState({ keyboardSpace: frames.endCoordinates.height });
+    });
+    Keyboard.addListener("keyboardDidHide", frames => {
+      this.setState({ keyboardSpace: 0 });
+    });
   }
   async componentDidMount() {
     this.updatePortfolio();
   }
 
   async getPortfolio() {
-    console.log("Getting Portfolio");
-    try {
-      let response = await fetch(
-        "https://www.brotoprocrypto.com/api/portfolios"
-      );
-      let responseJson = await response.json();
-      //console.log(responseJson);
-      return responseJson;
-    } catch (error) {
-      console.error(error);
-    }
+    return getPortfolioAsync();
   }
 
   async addHolding(holdingData) {
-    try {
-      let response = await fetch(
-        "https://www.brotoprocrypto.com/api/holdings",
-        {
-          method: "POST",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({
-            coinTickerSymbol: holdingData["Ticker symbol"].toUpperCase(),
-            amountOwned: holdingData["Amount owned"]
-          })
-        }
-      );
-    } catch (error) {
-      console.error(error);
-    }
-
+    await addHoldingAsync(holdingData);
     this.updatePortfolio();
-    //let responseJson = await response.json();
   }
 
   async updateHolding(holdingData) {
-    try {
-      console.log("updating coin with data: " + JSON.stringify(holdingData));
-      let response = await fetch(
-        "https://www.brotoprocrypto.com/api/holdings",
-        {
-          method: "PUT",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({
-            coinTickerSymbol: holdingData.tickerSymbol.toUpperCase(),
-            amountOwned: holdingData.newAmount
-          })
-        }
-      );
-    } catch (error) {
-      console.error(error);
-    }
+    await updateHoldingAsync(holdingData);
     this.updatePortfolio();
   }
 
   async removeHolding(tickerSymbol) {
-    console.log("deleting item with symbol: " + tickerSymbol);
-    try {
-      let response = await fetch(
-        "https://www.brotoprocrypto.com/api/holdings",
-        {
-          method: "DELETE",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({
-            coinTickerSymbol: tickerSymbol.toUpperCase()
-          })
-        }
-      );
-    } catch (error) {
-      console.error(error);
-    }
+    await removeHoldingAsync(tickerSymbol);
     this.updatePortfolio();
   }
 
@@ -141,13 +93,11 @@ export default class App extends React.Component {
       newAmount: formData["New Amount"]
     });
     this.handleModalCloseRequest();
-    // this.updatePortfolio();
   };
 
   removeHoldingFromPortfolio = holdingToRemove => {
     this.removeHolding(holdingToRemove);
     this.handleModalCloseRequest();
-    // this.updatePortfolio();
   };
 
   handleAddHoldingClick = () => {
@@ -173,11 +123,13 @@ export default class App extends React.Component {
         <NavBar />
         <View style={styles.container}>
           <AddHoldingModal
+            keyboardSpace={this.state.keyboardSpace}
             handleModalCloseRequest={this.handleModalCloseRequest}
             visible={this.state.addHoldingModalVisible}
             handleAddHoldingFormSubmit={this.handleAddHoldingFormSubmit}
           />
           <HoldingDetailModal
+            keyboardSpace={this.state.keyboardSpace}
             holdingSelected={this.state.holdingSelected}
             visible={this.state.holdingDetailModalVisible}
             handleModalCloseRequest={this.handleModalCloseRequest}
