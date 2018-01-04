@@ -11,6 +11,9 @@ export async function addHoldingAsync(holdingData) {
         amountOwned: holdingData["Amount owned"]
       })
     });
+    if (!response.ok) {
+      return await response.json();
+    }
   } catch (error) {
     console.error(error);
   }

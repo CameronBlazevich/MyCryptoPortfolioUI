@@ -1,6 +1,7 @@
 import React from "react";
 import { StyleSheet, Text, View, Keyboard } from "react-native";
 import Auth0 from "react-native-auth0";
+//import { MessageBarAlert, MessageBarManager } from "react-native-message-bar";
 import StatusBarBuffer from "./src/components/statusBarBuffer";
 import NavBar from "./src/components/navBar";
 import CryptoHoldingList from "./src/components/cryptoHoldingList";
@@ -13,6 +14,10 @@ import {
   updateHoldingAsync,
   removeHoldingAsync
 } from "./src/services/holdingsDataService";
+import * as errorMessagePrefixes from "./src/common/errorMessagePrefixes";
+
+var MessageBarAlert = require("react-native-message-bar").MessageBar;
+var MessageBarManager = require("react-native-message-bar").MessageBarManager;
 
 const auth0 = new Auth0({
   domain: "handrangememorizer.auth0.com",
@@ -40,7 +45,8 @@ export default class App extends React.Component {
       holdingSelected: {},
       addHoldingModalVisible: false,
       holdingDetailModalVisible: false,
-      keyboardSpace: 0
+      keyboardSpace: 0,
+      errorMessage: ""
     };
 
     //for get keyboard height
@@ -53,6 +59,7 @@ export default class App extends React.Component {
     });
   }
   async componentDidMount() {
+    MessageBarManager.registerMessageBar(this.refs.alert);
     this.updatePortfolio();
   }
 
@@ -61,8 +68,16 @@ export default class App extends React.Component {
   }
 
   async addHolding(holdingData) {
-    await addHoldingAsync(holdingData);
-    this.updatePortfolio();
+    var response = await addHoldingAsync(holdingData);
+    console.log(response);
+    if (
+      response &&
+      response.startsWith(errorMessagePrefixes.duplicateHoldingErrorPrefix)
+    ) {
+      this.handleErrorResponse(response);
+    } else {
+      this.updatePortfolio();
+    }
   }
 
   async updateHolding(holdingData) {
@@ -79,6 +94,15 @@ export default class App extends React.Component {
     let portfolio = await this.getPortfolio();
     this.setState({ portfolio: portfolio });
   }
+
+  handleErrorResponse = errorMessage => {
+    MessageBarManager.showAlert({
+      viewTopOffset: 20,
+      title: "",
+      message: errorMessage,
+      alertType: "error"
+    });
+  };
 
   handleHoldingListItemTouch = touched => {
     this.setState({
@@ -145,6 +169,7 @@ export default class App extends React.Component {
           onAddHoldingClick={this.handleAddHoldingClick}
           totalValue={this.state.portfolio.totalValue}
         />
+        <MessageBarAlert ref="alert" />
       </View>
     );
   }
