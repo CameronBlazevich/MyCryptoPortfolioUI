@@ -29,8 +29,6 @@ const styles = StyleSheet.create({
     marginTop: 10,
     paddingLeft: 20,
     paddingRight: 20,
-    //backgroundColor: "#ffffff",
-    //backgroundColor: "pink",
     flex: 1
   }
 });

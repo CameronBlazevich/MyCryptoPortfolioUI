@@ -7,10 +7,7 @@ function HoldingDetailModal(props) {
   return (
     <Modal
       isVisible={props.visible}
-      //transparent={true}
       onRequestClose={props.handleModalCloseRequest}
-      //backdropColor={"red"}
-      // backdropOpacity={0.5}
       onBackdropPress={() => props.handleModalCloseRequest}
     >
       <View style={styles.modalContent}>
@@ -60,11 +57,9 @@ const styles = StyleSheet.create({
     flexDirection: "row"
   },
   headerRow: {
-    //backgroundColor: "lightsteelblue"
     borderBottomColor: "black",
     borderBottomWidth: 1
   },
-  //   bodyRow: { flex: 3 },
   cell: { alignItems: "center", padding: 10, flexDirection: "row" },
   cellSmall: { flex: 1 },
   cellLarge: { flex: 4 },
