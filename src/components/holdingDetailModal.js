@@ -2,6 +2,7 @@ import React from "react";
 import { View, Text, Button, Image, StyleSheet } from "react-native";
 import Modal from "react-native-modal";
 import UpdateHoldingForm from "./updateHoldingForm";
+import CoinIcon from "../icons/svg/bitcoinSvg";
 
 function HoldingDetailModal(props) {
   return (
@@ -13,9 +14,10 @@ function HoldingDetailModal(props) {
       <View style={styles.modalContent}>
         <View style={[styles.row, styles.headerRow]}>
           <View style={[styles.cell, styles.cellSmall]}>
-            <Image
-              style={{ height: 55, width: 55 }}
-              source={require("../icons/bitcoin_black.png")}
+            <CoinIcon
+              tickerSymbol={props.holdingSelected.coinTickerSymbol}
+              height={35}
+              width={35}
             />
           </View>
           <View style={[styles.cell, styles.cellLarge]}>

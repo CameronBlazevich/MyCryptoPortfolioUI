@@ -25,6 +25,7 @@
     "react-native-auth0": "^1.2.1",
     "react-native-message-bar": "^2.0.7",
     "react-native-modal": "^4.1.1",
+    "react-native-svg": "5.5.1",
     "tcomb-form-native": "^0.6.11"
   }
 }
